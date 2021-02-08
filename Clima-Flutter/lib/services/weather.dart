@@ -1,3 +1,7 @@
+import 'package:clima/services/networking.dart' as networking;
+import 'package:clima/utilities/constants.dart';
+import 'package:clima/services/location.dart';
+
 class WeatherModel {
   String getWeatherIcon(int condition) {
     if (condition < 300) {
@@ -29,5 +33,20 @@ class WeatherModel {
     } else {
       return 'Bring a 🧥 just in case';
     }
+  }
+
+  Future<dynamic> getWeatherData() async {
+    Location location = Location();
+    await location.getLocation();
+    double latitude = location.latitude;
+    double longitude = location.longitude;
+    print(latitude);
+    print(longitude);
+    networking.NetworkHelper networkHelper = networking.NetworkHelper(
+      url:
+          '$kOpenWeatherMapURL?lat=$latitude&lon=$longitude&appid=$kApiKey&units=metric',
+    );
+    var weatherData = await networkHelper.getData();
+    return weatherData;
   }
 }
