@@ -35,6 +35,20 @@ class WeatherModel {
     }
   }
 
+  Future<dynamic> getCityWeatherData(String cityName) async {
+    Location location = Location();
+    await location.getLocation();
+    double latitude = location.latitude;
+    double longitude = location.longitude;
+    print(latitude);
+    print(longitude);
+    networking.NetworkHelper networkHelper = networking.NetworkHelper(
+      url: '$kOpenWeatherMapURL?q=$cityName&appid=$kApiKey&units=metric',
+    );
+    var weatherData = await networkHelper.getData();
+    return weatherData;
+  }
+
   Future<dynamic> getWeatherData() async {
     Location location = Location();
     await location.getLocation();
