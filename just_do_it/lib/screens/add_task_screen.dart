@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:just_do_it/models/task.dart';
+import 'package:just_do_it/models/task_data.dart';
 
 class AddTaskScreen extends StatelessWidget {
   String newTask;
-  final Function addNewTask;
-  AddTaskScreen(this.addNewTask);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,9 @@ class AddTaskScreen extends StatelessWidget {
               // ignore: deprecated_member_use
               FlatButton(
                 onPressed: () {
-                  addNewTask(newTask);
+                  Provider.of<TaskData>(context, listen: false)
+                      .addTask(newTask);
+                  Navigator.pop(context);
                 },
                 child: Text(
                   'Add Task',
